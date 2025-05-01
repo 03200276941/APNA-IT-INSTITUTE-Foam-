@@ -1,0 +1,1262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>APNA IT Institute - Admissions</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --apna-green: #28a745;
+            --apna-dark-green: #218838;
+            --apna-black: #212529;
+            --apna-gray: #6c757d;
+            --apna-light: #f8f9fa;
+            --apna-danger: #dc3545;
+            --apna-warning: #ffc107;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f5f5f5;
+            color: var(--apna-black);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        /* APNA IT Header */
+        .apna-header {
+            background: linear-gradient(135deg, var(--apna-black), var(--apna-black));
+            color: white;
+            padding: 2rem 1.5rem;
+            text-align: center;
+            border-radius: 8px 8px 0 0;
+            margin-top: 2rem;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            border-bottom: 5px solid var(--apna-green);
+        }
+
+        .apna-header::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><text x="10" y="50" font-family="Arial" font-size="20" fill="rgba(40,167,69,0.1)">APNA IT</text></svg>');
+            opacity: 0.3;
+        }
+
+        .apna-logo {
+            font-size: 2.8rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            color: var(--apna-green);
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            position: relative;
+        }
+
+        .apna-tagline {
+            font-size: 1.2rem;
+            color: var(--apna-green);
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .apna-address {
+            font-size: 0.9rem;
+            color: #adb5bd;
+            margin-top: 0.5rem;
+        }
+
+        .apna-title {
+            font-size: 2rem;
+            margin: 1rem 0;
+            color: white;
+            position: relative;
+        }
+
+        /* Main form container */
+        .form-container {
+            background: white;
+            padding: 2rem;
+            border-radius: 0 0 8px 8px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Progress indicator */
+        .form-progress {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 2rem;
+            position: relative;
+        }
+
+        .progress-step {
+            width: 40px;
+            height: 40px;
+            background: #e9ecef;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: var(--apna-gray);
+            position: relative;
+            z-index: 2;
+            border: 3px solid #e9ecef;
+            transition: all 0.3s ease;
+        }
+
+        .progress-step.active {
+            background: var(--apna-green);
+            color: white;
+            border-color: var(--apna-dark-green);
+        }
+
+        .progress-step.completed {
+            background: var(--apna-dark-green);
+            color: white;
+            border-color: var(--apna-dark-green);
+        }
+
+        .progress-bar {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            height: 4px;
+            background: #e9ecef;
+            width: 100%;
+            transform: translateY(-50%);
+            z-index: 1;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--apna-green);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        /* Form sections */
+        .form-section {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .form-section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .section-title {
+            color: var(--apna-green);
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #e9ecef;
+            font-size: 1.5rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .section-title i {
+            font-size: 1.3rem;
+        }
+
+        /* Form grid layout */
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.25rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--apna-black);
+        }
+
+        .form-group.required label::after {
+            content: " *";
+            color: var(--apna-danger);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #ced4da;
+            border-radius: 5px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--apna-green);
+            box-shadow: 0 0 0 3px rgba(40, 167, 69, 0.2);
+        }
+
+        select.form-control {
+            appearance: none;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 0.75rem center;
+            background-size: 1rem;
+        }
+
+        .radio-group, .checkbox-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .radio-option, .checkbox-option {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .error-message {
+            color: var(--apna-danger);
+            font-size: 0.85rem;
+            margin-top: 0.25rem;
+            display: none;
+        }
+
+        /* Form actions */
+        .form-actions {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 2rem;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.75rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: none;
+        }
+
+        .btn-primary {
+            background: var(--apna-green);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--apna-dark-green);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--apna-green);
+            border: 1px solid var(--apna-green);
+        }
+
+        .btn-outline:hover {
+            background: rgba(40, 167, 69, 0.1);
+        }
+
+        .btn-disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        /* File upload styles */
+        .file-upload {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .file-upload-btn {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem;
+            background: #f8f9fa;
+            border: 1px dashed #ced4da;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .file-upload-btn:hover {
+            background: #e9ecef;
+            border-color: var(--apna-green);
+        }
+
+        .file-upload-input {
+            position: absolute;
+            left: 0;
+            top: 0;
+            opacity: 0;
+            width: 100%;
+            height: 100%;
+            cursor: pointer;
+        }
+
+        .file-upload-name {
+            margin-top: 0.5rem;
+            font-size: 0.9rem;
+            color: #495057;
+        }
+
+        .preview-container {
+            margin-top: 1rem;
+            display: none;
+        }
+
+        .preview-image {
+            max-width: 100%;
+            max-height: 200px;
+            border-radius: 5px;
+            border: 1px solid #ced4da;
+        }
+
+        /* Course selection */
+        .course-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .course-card {
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            padding: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .course-card:hover {
+            border-color: var(--apna-green);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .course-card.selected {
+            border: 2px solid var(--apna-green);
+            background-color: rgba(40, 167, 69, 0.05);
+        }
+
+        .course-card input {
+            position: absolute;
+            opacity: 0;
+        }
+
+        .course-title {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--apna-black);
+        }
+
+        .course-duration {
+            font-size: 0.85rem;
+            color: var(--apna-gray);
+            margin-bottom: 0.5rem;
+        }
+
+        .course-fee {
+            font-weight: bold;
+            color: var(--apna-green);
+        }
+
+        /* Terms and conditions */
+        .terms-container {
+            margin: 2rem 0;
+            padding: 1.5rem;
+            background: #f8f9fa;
+            border-radius: 8px;
+            max-height: 200px;
+            overflow-y: auto;
+            border: 1px solid #e9ecef;
+        }
+
+        .terms-title {
+            font-weight: bold;
+            margin-bottom: 1rem;
+            color: var(--apna-black);
+        }
+
+        .terms-content {
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        .terms-content p {
+            margin-bottom: 1rem;
+        }
+
+        .checkbox-terms {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.5rem;
+            margin: 1.5rem 0;
+        }
+
+        /* Success message */
+        .success-message {
+            text-align: center;
+            padding: 3rem 2rem;
+            display: none;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .success-icon {
+            font-size: 4rem;
+            color: var(--apna-green);
+            margin-bottom: 1.5rem;
+            animation: bounce 1s;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
+            40% {transform: translateY(-20px);}
+            60% {transform: translateY(-10px);}
+        }
+
+        .success-title {
+            font-size: 1.8rem;
+            color: var(--apna-black);
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .success-text {
+            color: #495057;
+            margin-bottom: 2rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.6;
+        }
+
+        /* Spinner */
+        .spinner {
+            display: none;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Professional Footer */
+        .apna-footer {
+            background: var(--apna-black);
+            color: white;
+            padding: 2rem 0;
+            margin-top: 3rem;
+            border-top: 5px solid var(--apna-green);
+        }
+
+        .footer-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 1rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+        }
+
+        .footer-column h3 {
+            color: var(--apna-green);
+            margin-bottom: 1.5rem;
+            font-size: 1.2rem;
+            position: relative;
+            padding-bottom: 0.5rem;
+        }
+
+        .footer-column h3::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 50px;
+            height: 2px;
+            background: var(--apna-green);
+        }
+
+        .footer-contact {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+        }
+
+        .footer-contact i {
+            color: var(--apna-green);
+            font-size: 1.1rem;
+            width: 20px;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.75rem;
+        }
+
+        .footer-links a {
+            color: #adb5bd;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .footer-links a:hover {
+            color: var(--apna-green);
+            transform: translateX(5px);
+        }
+
+        .footer-links a i {
+            font-size: 0.8rem;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            margin-top: 2rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            color: #adb5bd;
+            font-size: 0.9rem;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .form-actions {
+                flex-direction: column-reverse;
+                gap: 1rem;
+            }
+            
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .course-options {
+                grid-template-columns: 1fr;
+            }
+            
+            .apna-logo {
+                font-size: 2.2rem;
+            }
+            
+            .apna-title {
+                font-size: 1.5rem;
+            }
+            
+            .footer-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- APNA IT Header -->
+        <div class="apna-header">
+            <div class="apna-logo">APNA IT INSTITUTE</div>
+            <div class="apna-tagline">Empowering Pakistan with IT Skills</div>
+            <div class="apna-address">
+                <i class="fas fa-map-marker-alt"></i>Plot No. 457, Lasbella House, Garden East, Karachi, Pakistan
+            </div>
+            <h1 class="apna-title">Admission Form 2024</h1>
+        </div>
+
+        <!-- Main Form Container -->
+        <div class="form-container">
+            <!-- Progress Indicator -->
+            <div class="form-progress">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+                <div class="progress-step active" id="step1">1</div>
+                <div class="progress-step" id="step2">2</div>
+                <div class="progress-step" id="step3">3</div>
+                <div class="progress-step" id="step4">4</div>
+            </div>
+
+            <!-- Form Sections -->
+            <form id="admissionForm">
+                <!-- Section 1: Personal Information -->
+                <div class="form-section active" id="section1">
+                    <h2 class="section-title">
+                        <i class="fas fa-user"></i> Personal Information
+                    </h2>
+                    
+                    <div class="form-grid">
+                        <div class="form-group required">
+                            <label for="firstName">First Name</label>
+                            <input type="text" id="firstName" class="form-control" required>
+                            <div class="error-message" id="firstNameError">Please enter first name</div>
+                        </div>
+                        
+                        <div class="form-group required">
+                            <label for="lastName">Last Name</label>
+                            <input type="text" id="lastName" class="form-control" required>
+                            <div class="error-message" id="lastNameError">Please enter last name</div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-grid">
+                        <div class="form-group required">
+                            <label for="fatherName">Father's Name</label>
+                            <input type="text" id="fatherName" class="form-control" required>
+                            <div class="error-message" id="fatherNameError">Please enter father's name</div>
+                        </div>
+                        
+                        <div class="form-group required">
+                            <label for="cnic">CNIC/B-Form Number</label>
+                            <input type="text" id="cnic" class="form-control" placeholder="XXXXX-XXXXXXX-X" required>
+                            <div class="error-message" id="cnicError">Please enter valid CNIC/B-Form</div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-grid">
+                        <div class="form-group required">
+                            <label for="dob">Date of Birth</label>
+                            <input type="date" id="dob" class="form-control" required>
+                            <div class="error-message" id="dobError">Please select date of birth</div>
+                        </div>
+                        
+                        <div class="form-group required">
+                            <label for="gender">Gender</label>
+                            <select id="gender" class="form-control" required>
+                                <option value="">Select Gender</option>
+                                <option value="Male">Male</option>
+                                <option value="Female">Female</option>
+                                <option value="Other">Other</option>
+                            </select>
+                            <div class="error-message" id="genderError">Please select gender</div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-outline" disabled>
+                            <i class="fas fa-arrow-left"></i> Previous
+                        </button>
+                        <button type="button" class="btn btn-primary" id="next1">
+                            Next <i class="fas fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Section 2: Contact & Education -->
+                <div class="form-section" id="section2">
+                    <h2 class="section-title">
+                        <i class="fas fa-address-book"></i> Contact & Education
+                    </h2>
+                    
+                    <div class="form-grid">
+                        <div class="form-group required">
+                            <label for="phone">Phone Number</label>
+                            <input type="tel" id="phone" class="form-control" placeholder="0300-1234567" required>
+                            <div class="error-message" id="phoneError">Please enter valid phone number</div>
+                        </div>
+                        
+                        <div class="form-group required">
+                            <label for="email">Email Address</label>
+                            <input type="email" id="email" class="form-control" placeholder="example@domain.com" required>
+                            <div class="error-message" id="emailError">Please enter valid email</div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group required">
+                        <label for="address">Complete Address</label>
+                        <input type="text" id="address" class="form-control" required>
+                        <div class="error-message" id="addressError">Please enter your address</div>
+                    </div>
+                    
+                    <div class="form-grid">
+                        <div class="form-group required">
+                            <label for="city">City</label>
+                            <input type="text" id="city" class="form-control" value="Karachi" required>
+                            <div class="error-message" id="cityError">Please enter city</div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="education">Highest Education</label>
+                            <select id="education" class="form-control">
+                                <option value="">Select Education</option>
+                                <option value="Matric">Matric</option>
+                                <option value="Intermediate">Intermediate</option>
+                                <option value="Bachelor">Bachelor</option>
+                                <option value="Master">Master</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="institution">Last Attended Institution</label>
+                        <input type="text" id="institution" class="form-control">
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-outline" id="prev2">
+                            <i class="fas fa-arrow-left"></i> Previous
+                        </button>
+                        <button type="button" class="btn btn-primary" id="next2">
+                            Next <i class="fas fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Section 3: Course Selection -->
+                <div class="form-section" id="section3">
+                    <h2 class="section-title">
+                        <i class="fas fa-laptop-code"></i> Course Selection
+                    </h2>
+                    
+                    <div class="form-group required">
+                        <label>Select Your Course (Choose One)</label>
+                        <div class="course-options">
+                            <label class="course-card">
+                                <input type="radio" name="course" value="Web Development" required>
+                                <div class="course-title">Web Development</div>
+                                <div class="course-duration">3 Months</div>
+                                <div class="course-fee">Rs. 15,000</div>
+                            </label>
+                            
+                            <label class="course-card">
+                                <input type="radio" name="course" value="Graphic Design">
+                                <div class="course-title">Graphic Design</div>
+                                <div class="course-duration">2 Months</div>
+                                <div class="course-fee">Rs. 12,000</div>
+                            </label>
+                            
+                            <label class="course-card">
+                                <input type="radio" name="course" value="Digital Marketing">
+                                <div class="course-title">Digital Marketing</div>
+                                <div class="course-duration">2 Months</div>
+                                <div class="course-fee">Rs. 10,000</div>
+                            </label>
+                            
+                            <label class="course-card">
+                                <input type="radio" name="course" value="Mobile App Development">
+                                <div class="course-title">Mobile App Development</div>
+                                <div class="course-duration">3 Months</div>
+                                <div class="course-fee">Rs. 18,000</div>
+                            </label>
+                            
+                            <label class="course-card">
+                                <input type="radio" name="course" value="Data Science">
+                                <div class="course-title">Data Science</div>
+                                <div class="course-duration">4 Months</div>
+                                <div class="course-fee">Rs. 25,000</div>
+                            </label>
+                            
+                            <label class="course-card">
+                                <input type="radio" name="course" value="Cyber Security">
+                                <div class="course-title">Cyber Security</div>
+                                <div class="course-duration">3 Months</div>
+                                <div class="course-fee">Rs. 20,000</div>
+                            </label>
+                        </div>
+                        <div class="error-message" id="courseError">Please select a course</div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="shift">Preferred Shift</label>
+                        <select id="shift" class="form-control">
+                            <option value="">Select Shift</option>
+                            <option value="Morning (9AM-12PM)">Morning (9AM-12PM)</option>
+                            <option value="Afternoon (2PM-5PM)">Afternoon (2PM-5PM)</option>
+                            <option value="Evening (6PM-9PM)">Evening (6PM-9PM)</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="reference">How did you hear about us?</label>
+                        <select id="reference" class="form-control">
+                            <option value="">Select Option</option>
+                            <option value="Friend/Family">Friend/Family</option>
+                            <option value="Social Media">Social Media</option>
+                            <option value="Newspaper">Newspaper</option>
+                            <option value="Flyer/Banner">Flyer/Banner</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-outline" id="prev3">
+                            <i class="fas fa-arrow-left"></i> Previous
+                        </button>
+                        <button type="button" class="btn btn-primary" id="next3">
+                            Next <i class="fas fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Section 4: Documents & Submit -->
+                <div class="form-section" id="section4">
+                    <h2 class="section-title">
+                        <i class="fas fa-file-upload"></i> Documents & Submission
+                    </h2>
+                    
+                    <div class="form-group required">
+                        <label>Upload CNIC/B-Form Copy</label>
+                        <div class="file-upload">
+                            <label class="file-upload-btn">
+                                <i class="fas fa-cloud-upload-alt"></i> Choose File
+                                <input type="file" id="cnicCopy" class="file-upload-input" accept=".pdf,.jpg,.jpeg,.png" required>
+                            </label>
+                            <div class="file-upload-name" id="cnicCopyName">No file chosen</div>
+                        </div>
+                        <div class="error-message" id="cnicCopyError">Please upload CNIC/B-Form copy</div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Upload Latest Photo</label>
+                        <div class="file-upload">
+                            <label class="file-upload-btn">
+                                <i class="fas fa-cloud-upload-alt"></i> Choose File
+                                <input type="file" id="photo" class="file-upload-input" accept=".jpg,.jpeg,.png">
+                            </label>
+                            <div class="file-upload-name" id="photoName">No file chosen</div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Upload Educational Certificates (if any)</label>
+                        <div class="file-upload">
+                            <label class="file-upload-btn">
+                                <i class="fas fa-cloud-upload-alt"></i> Choose File
+                                <input type="file" id="certificates" class="file-upload-input" accept=".pdf,.jpg,.jpeg,.png" multiple>
+                            </label>
+                            <div class="file-upload-name" id="certificatesName">No file chosen</div>
+                        </div>
+                    </div>
+                    
+                    <div class="terms-container">
+                        <div class="terms-title">Terms & Conditions</div>
+                        <div class="terms-content">
+                            <p>1. All information provided must be accurate and complete. Falsification may result in cancellation of admission.</p>
+                            <p>2. Fees once paid are non-refundable except in case of course cancellation by the institute.</p>
+                            <p>3. Students must maintain 75% attendance to be eligible for certification.</p>
+                            <p>4. The institute reserves the right to change batch timings if necessary.</p>
+                            <p>5. By submitting this form, you agree to our privacy policy and terms of service.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="checkbox-terms">
+                        <input type="checkbox" id="agreeTerms" required>
+                        <label for="agreeTerms">I certify that all information provided is accurate and complete, and I agree to the terms and conditions above.</label>
+                    </div>
+                    <div class="error-message" id="termsError">You must agree to the terms</div>
+                    
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-outline" id="prev4">
+                            <i class="fas fa-arrow-left"></i> Previous
+                        </button>
+                        <button type="submit" class="btn btn-primary" id="submitBtn">
+                            <span id="submitText">Submit Application</span>
+                            <div class="spinner" id="spinner"></div>
+                        </button>
+                    </div>
+                </div>
+            </form>
+
+            <!-- Success Message -->
+            <div class="success-message" id="successMessage">
+                <div class="success-icon">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <h2 class="success-title">Application Submitted Successfully!</h2>
+                <p class="success-text">
+                    Thank you for applying to APNA IT Institute. We have received your application and will review it shortly.
+                    Our admission team will contact you within 3 working days for further process.
+                </p>
+                <p class="success-text">
+                    For any queries, please contact us at <strong>admissions@apnait.edu.pk</strong> or call <strong>+92 300 1234567</strong>.
+                </p>
+                <button class="btn btn-primary" id="newApplication">
+                    <i class="fas fa-plus"></i> Start New Application
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Professional Footer -->
+    <footer class="apna-footer">
+        <div class="footer-container">
+            <div class="footer-column">
+                <h3>Contact Us</h3>
+                <div class="footer-contact">
+                    <i class="fas fa-phone-alt"></i>
+                    <div>
+                        <div>+92 320 0276941</div>
+                    </div>
+                </div>
+                <div class="footer-contact">
+                    <i class="fas fa-envelope"></i>
+                    <div>admissions@apnait.edu.pk</div>
+                </div>
+                <div class="footer-contact">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <div>Plot No. 457, Lasbella House, Garden East, Karachi, Pakistan</div>
+                </div>
+            </div>
+            
+            <div class="footer-column">
+                <h3>Quick Links</h3>
+                <ul class="footer-links">
+                    <li><a href="#"><i class="fas fa-chevron-right"></i> Home</a></li>
+                    <li><a href="#"><i class="fas fa-chevron-right"></i> Courses</a></li>
+                    <li><a href="#"><i class="fas fa-chevron-right"></i> Faculty</a></li>
+                    <li><a href="#"><i class="fas fa-chevron-right"></i> Admissions</a></li>
+                    <li><a href="#"><i class="fas fa-chevron-right"></i> Contact</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-column">
+                <h3>Opening Hours</h3>
+                <div class="footer-contact">
+                    <i class="fas fa-clock"></i>
+                    <div>
+                        <div><strong>Monday - Saturday</strong></div>
+                        <div>9:00 AM - 6:00 PM</div>
+                    </div>
+                </div>
+                <div class="footer-contact">
+                    <i class="fas fa-clock"></i>
+                    <div>
+                        <div><strong>Sunday</strong></div>
+                        <div>Closed</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            &copy; 2024 APNA IT Institute. All Rights Reserved. | Designed with <i class="fas fa-heart" style="color: var(--apna-danger);"></i> for Pakistan
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Form navigation elements
+            const sections = document.querySelectorAll('.form-section');
+            const steps = document.querySelectorAll('.progress-step');
+            const progressFill = document.getElementById('progressFill');
+            const nextButtons = [null, document.getElementById('next1'), document.getElementById('next2'), document.getElementById('next3')];
+            const prevButtons = [null, document.getElementById('prev2'), document.getElementById('prev3'), document.getElementById('prev4')];
+            let currentSection = 0;
+            
+            // File upload elements
+            const cnicCopyInput = document.getElementById('cnicCopy');
+            const cnicCopyName = document.getElementById('cnicCopyName');
+            const photoInput = document.getElementById('photo');
+            const photoName = document.getElementById('photoName');
+            const certificatesInput = document.getElementById('certificates');
+            const certificatesName = document.getElementById('certificatesName');
+            
+            // Course selection
+            const courseCards = document.querySelectorAll('.course-card');
+            
+            // Form submission elements
+            const form = document.getElementById('admissionForm');
+            const submitBtn = document.getElementById('submitBtn');
+            const submitText = document.getElementById('submitText');
+            const spinner = document.getElementById('spinner');
+            const successMessage = document.getElementById('successMessage');
+            const newApplicationBtn = document.getElementById('newApplication');
+            
+            // Initialize form
+            showSection(0);
+            
+            // Course card selection
+            courseCards.forEach(card => {
+                card.addEventListener('click', function() {
+                    // Remove selected class from all cards
+                    courseCards.forEach(c => c.classList.remove('selected'));
+                    
+                    // Add selected class to clicked card
+                    this.classList.add('selected');
+                    
+                    // Check the radio button inside
+                    const radio = this.querySelector('input[type="radio"]');
+                    if (radio) {
+                        radio.checked = true;
+                    }
+                });
+            });
+            
+            // Next button click handlers
+            nextButtons.forEach((btn, index) => {
+                if (btn) {
+                    btn.addEventListener('click', function() {
+                        if (validateSection(currentSection)) {
+                            showSection(currentSection + 1);
+                        }
+                    });
+                }
+            });
+            
+            // Previous button click handlers
+            prevButtons.forEach((btn, index) => {
+                if (btn) {
+                    btn.addEventListener('click', function() {
+                        showSection(currentSection - 1);
+                    });
+                }
+            });
+            
+            // File upload change handlers
+            cnicCopyInput.addEventListener('change', function() {
+                if (this.files.length > 0) {
+                    cnicCopyName.textContent = this.files[0].name;
+                } else {
+                    cnicCopyName.textContent = 'No file chosen';
+                }
+            });
+            
+            photoInput.addEventListener('change', function() {
+                if (this.files.length > 0) {
+                    photoName.textContent = this.files[0].name;
+                } else {
+                    photoName.textContent = 'No file chosen';
+                }
+            });
+            
+            certificatesInput.addEventListener('change', function() {
+                if (this.files.length > 0) {
+                    if (this.files.length === 1) {
+                        certificatesName.textContent = this.files[0].name;
+                    } else {
+                        certificatesName.textContent = `${this.files.length} files selected`;
+                    }
+                } else {
+                    certificatesName.textContent = 'No file chosen';
+                }
+            });
+            
+            // Form submission handler
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Validate terms agreement
+                if (!document.getElementById('agreeTerms').checked) {
+                    document.getElementById('termsError').style.display = 'block';
+                    return;
+                } else {
+                    document.getElementById('termsError').style.display = 'none';
+                }
+                
+                // Validate course selection
+                const courseSelected = document.querySelector('input[name="course"]:checked');
+                if (!courseSelected) {
+                    document.getElementById('courseError').style.display = 'block';
+                    return;
+                } else {
+                    document.getElementById('courseError').style.display = 'none';
+                }
+                
+                // Show loading state
+                submitText.textContent = 'Submitting...';
+                spinner.style.display = 'block';
+                submitBtn.disabled = true;
+                
+                // Simulate form submission (replace with actual API call)
+                setTimeout(() => {
+                    // Hide form and show success message
+                    document.getElementById('section4').style.display = 'none';
+                    successMessage.style.display = 'block';
+                    
+                    // Here you would normally send data to Google Sheets
+                    // sendToGoogleSheets();
+                    
+                    // Reset form state
+                    submitText.textContent = 'Submit Application';
+                    spinner.style.display = 'none';
+                    submitBtn.disabled = false;
+                }, 2000);
+            });
+            
+            // New application button
+            newApplicationBtn.addEventListener('click', function() {
+                form.reset();
+                cnicCopyName.textContent = 'No file chosen';
+                photoName.textContent = 'No file chosen';
+                certificatesName.textContent = 'No file chosen';
+                courseCards.forEach(card => card.classList.remove('selected'));
+                successMessage.style.display = 'none';
+                showSection(0);
+            });
+            
+            // Show specific section
+            function showSection(index) {
+                // Hide all sections
+                sections.forEach(section => {
+                    section.classList.remove('active');
+                });
+                
+                // Update current section
+                currentSection = index;
+                
+                // Show current section
+                sections[index].classList.add('active');
+                
+                // Update progress steps
+                steps.forEach((step, i) => {
+                    step.classList.remove('active', 'completed');
+                    if (i < index) {
+                        step.classList.add('completed');
+                    } else if (i === index) {
+                        step.classList.add('active');
+                    }
+                });
+                
+                // Update progress bar
+                const progressPercent = (index / (sections.length - 1)) * 100;
+                progressFill.style.width = `${progressPercent}%`;
+            }
+            
+            // Validate section
+            function validateSection(index) {
+                let isValid = true;
+                
+                // Reset error messages
+                document.querySelectorAll('.error-message').forEach(el => {
+                    el.style.display = 'none';
+                });
+                
+                // Section 1 validation
+                if (index === 0) {
+                    if (!document.getElementById('firstName').value.trim()) {
+                        document.getElementById('firstNameError').style.display = 'block';
+                        isValid = false;
+                    }
+                    
+                    if (!document.getElementById('lastName').value.trim()) {
+                        document.getElementById('lastNameError').style.display = 'block';
+                        isValid = false;
+                    }
+                    
+                    if (!document.getElementById('fatherName').value.trim()) {
+                        document.getElementById('fatherNameError').style.display = 'block';
+                        isValid = false;
+                    }
+                    
+                    if (!document.getElementById('cnic').value.trim()) {
+                        document.getElementById('cnicError').style.display = 'block';
+                        isValid = false;
+                    }
+                    
+                    if (!document.getElementById('dob').value) {
+                        document.getElementById('dobError').style.display = 'block';
+                        isValid = false;
+                    }
+                    
+                    if (!document.getElementById('gender').value) {
+                        document.getElementById('genderError').style.display = 'block';
+                        isValid = false;
+                    }
+                }
+                
+                // Section 2 validation
+                if (index === 1) {
+                    const phone = document.getElementById('phone').value.trim();
+                    if (!phone || !validatePhone(phone)) {
+                        document.getElementById('phoneError').style.display = 'block';
+                        isValid = false;
+                    }
+                    
+                    const email = document.getElementById('email').value.trim();
+                    if (!email || !validateEmail(email)) {
+                        document.getElementById('emailError').style.display = 'block';
+                        isValid = false;
+                    }
+                    
+                    if (!document.getElementById('address').value.trim()) {
+                        document.getElementById('addressError').style.display = 'block';
+                        isValid = false;
+                    }
+                    
+                    if (!document.getElementById('city').value.trim()) {
+                        document.getElementById('cityError').style.display = 'block';
+                        isValid = false;
+                    }
+                }
+                
+                // Section 3 validation
+                if (index === 2) {
+                    const courseSelected = document.querySelector('input[name="course"]:checked');
+                    if (!courseSelected) {
+                        document.getElementById('courseError').style.display = 'block';
+                        isValid = false;
+                    }
+                }
+                
+                return isValid;
+            }
+            
+            // Email validation
+            function validateEmail(email) {
+                const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                return re.test(email);
+            }
+            
+            // Phone validation (Pakistani format)
+            function validatePhone(phone) {
+                const re = /^(\+92|0)[1-9][0-9]{9}$/;
+                return re.test(phone.replace(/-/g, ''));
+            }
+            
+            // CNIC validation (Pakistani format)
+            function validateCNIC(cnic) {
+                const re = /^[0-9]{5}-[0-9]{7}-[0-9]$/;
+                return re.test(cnic);
+            }
+        });
+    </script>
+</body>
+</html>
